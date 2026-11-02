@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nevie Studio | Briefing & Cotizador Deportivo</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Parkinsans & Roboto -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Parkinsans:wght@400;600;700;800&family=Roboto:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- html2pdf.js for Client Summary Export -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f4f3ff',
+                            100: '#ebe9fe',
+                            200: '#d9d6fe',
+                            500: '#3621EF', // Main electric blue accent
+                            600: '#2b19d4',
+                            700: '#2211b5',
+                            900: '#130870',
+                            lightBg: '#F8FAFC',
+                            cardBg: '#FFFFFF',
+                            border: '#E2E8F0',
+                            textDark: '#0F172A',
+                            textMuted: '#64748B'
+                        }
+                    },
+                    fontFamily: {
+                        heading: ['Parkinsans', 'sans-serif'],
+                        body: ['Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #F8FAFC;
+            color: #0F172A;
+        }
+        h1, h2, h3, h4, .font-heading {
+            font-family: 'Parkinsans', sans-serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F1F5F9;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #CBD5E1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3621EF;
+        }
+        .glow-effect {
+            box-shadow: 0 10px 25px -5px rgba(54, 33, 239, 0.15);
+        }
+        .glow-hover:hover {
+            box-shadow: 0 12px 30px -5px rgba(54, 33, 239, 0.25);
+        }
+        /* Print Styles */
+        @media print {
+            body { background: white !important; color: black !important; }
+            .no-print { display: none !important; }
+            .print-card { background: white !important; border: 1px solid #cbd5e1 !important; color: black !important; box-shadow: none !important; }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-500 selection:text-white">
+
+    <!-- Header / Brand Bar -->
+    <header class="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-sm">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div id="brand-logo-container" class="relative flex items-center">
+                    <!-- PON TU LOGO AQUÍ -->
+                    <img src="TU_LOGO_AQUI.png" class="h-10 w-auto object-contain" alt="Logo Nevie Studio" />
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="max-w-5xl mx-auto px-4 py-8 flex-grow w-full">
+
+        <!-- ================= PAGE 1: BRIEFING FORM ================= -->
+        <div id="page-form" class="space-y-8">
+
+            <!-- Hero Section & Cover Banner -->
+            <div class="relative rounded-2xl overflow-hidden border border-slate-200 bg-white shadow-sm group">
+                
+                <!-- PON TU BANNER AQUÍ en el background-image -->
+                <div id="hero-bg" class="h-60 sm:h-72 w-full bg-cover bg-center transition-all duration-500 relative" style="background-image: url('TU_BANNER_AQUI.jpg');">
+                    <div class="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-transparent"></div>
+                </div>
+
+                <div class="relative z-10 p-6 sm:p-8 -mt-20 sm:-mt-16">
+                    <div class="inline-block px-4 py-1.5 bg-brand-500 text-white text-xs font-bold rounded-full uppercase tracking-wider mb-2 shadow-md">
+                        Branding Deportivo
+                    </div>
+                    <h1 class="text-2xl sm:text-4xl font-extrabold text-slate-900 tracking-tight leading-tight mb-3">
+                        Briefing - Servicios de branding deportivo y diseño gráfico
+                    </h1>
+                    <p class="text-slate-600 text-sm sm:text-base max-w-3xl leading-relaxed">
+                        Este documento está diseñado para recopilar la información clave que necesitamos para avanzar en nuestro proyecto. Agradecemos tu colaboración para asegurarnos de tener todos los detalles necesarios.
+                    </p>
+                </div>
+            </div>
+
+            <!-- FORM START -->
+            <form id="briefing-form" onsubmit="handleFormSubmit(event)" class="space-y-8">
+
+                <!-- SECCIÓN 1: DATOS DE CONTACTO Y EQUIPO -->
+                <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-brand-500"></div>
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold shadow-sm">1</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Datos generales del cliente/Institución</h2>
+                            <p class="text-xs text-slate-500">Información básica de contacto e institución deportiva</p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Nombre Completo <span class="text-brand-500">*</span></label>
+                            <input type="text" id="client_name" required placeholder="Ej. Mateo Arze" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Nombre del Equipo / Club / Institución <span class="text-brand-500">*</span></label>
+                            <input type="text" id="team_name" required placeholder="Ej. Club Deportivo Cóndores" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Correo Electrónico y/o WhatsApp <span class="text-brand-500">*</span></label>
+                            <input type="text" id="contact_info" required placeholder="Ej. +591 71234567 o contacto@equipo.com" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-600">Ciudad o País <span class="text-slate-400">(Opcional)</span></label>
+                            <input type="text" id="location_info" placeholder="Ej. La Paz, Bolivia" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Preferencia de Contacto</label>
+                            <select id="contact_preference" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                                <option value="WhatsApp">WhatsApp (Recomendado)</option>
+                                <option value="Correo Electrónico">Correo Electrónico</option>
+                                <option value="Llamada">Llamada Telefónica</option>
+                            </select>
+                        </div>
+                        <div class="space-y-1.5">
+                            <label class="text-xs font-bold uppercase tracking-wider text-slate-700">¿Planes para expandir su equipo/institución?</label>
+                            <select id="expansion_plans" class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                                <option value="Sí, a corto plazo">Sí, a corto plazo</option>
+                                <option value="Sí, a largo plazo">Sí, a largo plazo</option>
+                                <option value="No tengo planes de expansión">No tengo planes de expansión</option>
+                            </select>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 2: CATEGORÍA DEL ENCARGO Y PLANES -->
+                <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-brand-500"></div>
+                    <div class="flex items-center justify-between border-b border-slate-100 pb-4 flex-wrap gap-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold shadow-sm">2</div>
+                            <div>
+                                <h2 class="text-xl font-bold text-slate-900">Selecciona un plan</h2>
+                                <p class="text-xs text-slate-500">Elige el paquete que mejor se adapta a tus necesidades</p>
+                            </div>
+                        </div>
+                        <div class="text-right bg-brand-50 px-4 py-2 rounded-xl border border-brand-100">
+                            <span class="text-[10px] text-slate-500 font-bold uppercase block">Inversión Estimada</span>
+                            <span id="floating-total-display" class="text-2xl font-extrabold text-brand-500 font-heading">525 Bs</span>
+                        </div>
+                    </div>
+
+                    <!-- Tier Cards Selector -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div onclick="selectPlan('basico')" id="card-basico" class="plan-card cursor-pointer border border-slate-200 bg-slate-50/50 hover:border-brand-500/50 rounded-xl p-5 transition relative flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-slate-900">BÁSICO</h3>
+                                    <span class="text-brand-500 font-extrabold text-lg">55 Bs</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mb-4">Una sola pieza en cualquier formato (feed o story).</p>
+                                <ul class="text-xs text-slate-600 space-y-1.5">
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Paleta cromática simple</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Selección tipográfica</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Entrega en 24 horas</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Entregables JPG y PNG</li>
+                                </ul>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 text-center">
+                                <span class="select-badge text-xs font-medium text-slate-400">Clic para seleccionar</span>
+                            </div>
+                        </div>
+
+                        <div onclick="selectPlan('estandar')" id="card-estandar" class="plan-card cursor-pointer border-2 border-brand-500 bg-brand-50/40 rounded-xl p-5 transition relative flex flex-col justify-between shadow-md shadow-brand-500/10">
+                            <span class="absolute -top-3 right-4 bg-brand-500 text-white text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full">Recomendado</span>
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-slate-900">ESTÁNDAR</h3>
+                                    <span class="text-brand-500 font-extrabold text-lg">525 Bs</span>
+                                </div>
+                                <p class="text-xs text-slate-600 mb-4">Kit de 4 a 10 piezas para las redes sociales.</p>
+                                <ul class="text-xs text-slate-600 space-y-1.5">
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Sistema cromático & tipográfico</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> 1 ronda de revisiones/ajustes</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Archivo fuente editable</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Entrega en 3-5 días</li>
+                                </ul>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-brand-200 text-center">
+                                <span class="select-badge text-xs font-bold text-brand-500">Seleccionado</span>
+                            </div>
+                        </div>
+
+                        <div onclick="selectPlan('premium')" id="card-premium" class="plan-card cursor-pointer border border-slate-200 bg-slate-50/50 hover:border-brand-500/50 rounded-xl p-5 transition relative flex flex-col justify-between">
+                            <div>
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-bold text-lg text-slate-900">PREMIUM</h3>
+                                    <span class="text-brand-500 font-extrabold text-lg">900 Bs</span>
+                                </div>
+                                <p class="text-xs text-slate-500 mb-4">Sistema completo de branding + Kit de piezas.</p>
+                                <ul class="text-xs text-slate-600 space-y-1.5">
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Manual de uso de marca</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Rediseño/creación de escudo</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Papelería institucional & Mockups</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Doble formato (Feed + Story)</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> 3 rondas de revisiones/ajustes</li>
+                                    <li class="flex items-center gap-1.5"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> Entrega en 5-7 días</li>
+                                </ul>
+                            </div>
+                            <div class="mt-4 pt-3 border-t border-slate-200 text-center">
+                                <span class="select-badge text-xs font-medium text-slate-400">Clic para seleccionar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <input type="hidden" id="selected_plan" value="estandar">
+
+                    <!-- SECCIÓN DINÁMICA DE SELECCIÓN DE PIEZAS -->
+                    <div id="pieces-selector-wrapper" class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-4">
+                        
+                        <!-- Header responsive para evitar deformaciones -->
+                        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+                            <div class="flex-1">
+                                <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wide flex items-center gap-2">
+                                    <i class="fa-solid fa-list-check text-brand-500"></i>
+                                    Selección de Piezas Gráficas Incluidas
+                                </h3>
+                                <p id="pieces-min-legend" class="text-xs text-slate-500 mt-0.5">
+                                    Desmarca las piezas que no requieras para ajustar el precio (Mínimo <span class="font-bold">4</span> piezas).
+                                </p>
+                            </div>
+
+                            <div id="pieces-discount-card" class="w-full lg:w-auto shrink-0 flex items-center justify-between sm:justify-end gap-3 bg-white px-4 py-2.5 rounded-xl border border-slate-200 shadow-sm">
+                                <div class="text-right flex-shrink-0">
+                                    <div class="text-[10px] uppercase font-bold text-slate-400">Piezas seleccionadas</div>
+                                    <div class="text-xs font-bold text-slate-800"><span id="pieces-count-display" class="text-brand-500 font-extrabold text-sm">10</span> / 10</div>
+                                </div>
+                                <div class="h-8 w-px bg-slate-200 my-auto flex-shrink-0"></div>
+                                <div id="discount-badge" class="bg-amber-50 text-amber-700 border border-amber-200 px-3 py-1.5 rounded-lg text-xs font-bold flex items-center gap-1.5">
+                                    <i class="fa-solid fa-tag text-[10px]"></i>
+                                    <span id="discount-amount-display" class="whitespace-nowrap">Kit completo</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2" id="pieces-checkbox-container"></div>
+                    </div>
+
+                    <!-- TRABAJOS / SERVICIOS ADICIONALES -->
+                    <div class="pt-4 border-t border-slate-100 space-y-3">
+                        <h3 class="font-bold text-slate-900 text-sm uppercase tracking-wide flex items-center gap-2">
+                            <i class="fa-solid fa-square-plus text-brand-500"></i>
+                            Servicios adicionales
+                        </h3>
+                        <p class="text-xs text-slate-500">Añade extras específicos para potenciar la entrega de tu proyecto:</p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="additionals-container"></div>
+                    </div>
+                </section>
+
+                <!-- SECCIÓN 3: PREFERENCIA VISUAL Y DIFERENCIACIÓN -->
+                <section class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 space-y-6 shadow-sm relative overflow-hidden">
+                    <div class="absolute top-0 left-0 w-1.5 h-full bg-brand-500"></div>
+                    <div class="flex items-center gap-3 border-b border-slate-100 pb-4">
+                        <div class="w-8 h-8 rounded-full bg-brand-500 text-white flex items-center justify-center font-bold shadow-sm">3</div>
+                        <div>
+                            <h2 class="text-xl font-bold text-slate-900">Preferencias visuales</h2>
+                            <p class="text-xs text-slate-500">Define la estética deseada y el carácter del club o institución</p>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-700 block">
+                            Estilo Visual Preferido <span class="text-brand-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3.5 rounded-xl hover:border-brand-500/50 transition flex items-start gap-3">
+                                <input type="radio" name="visual_style" value="Moderno & Agresivo" checked class="mt-1 accent-brand-500">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900 block">Moderno & Agresivo</span>
+                                    <span class="text-xs text-slate-500">Líneas afiladas, alto contraste, dinamismo e impacto visual.</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3.5 rounded-xl hover:border-brand-500/50 transition flex items-start gap-3">
+                                <input type="radio" name="visual_style" value="Clásico & Tradicional" class="mt-1 accent-brand-500">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900 block">Clásico & Tradicional</span>
+                                    <span class="text-xs text-slate-500">Sobrio, institucional, sobriedad, elegancia y atemporalidad.</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3.5 rounded-xl hover:border-brand-500/50 transition flex items-start gap-3">
+                                <input type="radio" name="visual_style" value="Minimalista & Elegante" class="mt-1 accent-brand-500">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900 block">Minimalista & Elegante</span>
+                                    <span class="text-xs text-slate-500">Limpio, amplios espacios, tipografía refinada y pulcro.</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3.5 rounded-xl hover:border-brand-500/50 transition flex items-start gap-3">
+                                <input type="radio" name="visual_style" value="Urbano & Streetwear" class="mt-1 accent-brand-500">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900 block">Urbano & Streetwear</span>
+                                    <span class="text-xs text-slate-500">Texturas, pinceladas, estilo callejero y carácter fuerte.</span>
+                                </div>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3.5 rounded-xl hover:border-brand-500/50 transition flex items-start gap-3">
+                                <input type="radio" name="visual_style" value="Retro & Vintage" class="mt-1 accent-brand-500">
+                                <div>
+                                    <span class="text-sm font-bold text-slate-900 block">Retro & Vintage</span>
+                                    <span class="text-xs text-slate-500">Estilo 80s/90s, tonos desgastados y estética nostálgica.</span>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="space-y-1.5 pt-2">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-700">Enlaces de Referencia Visual <span class="text-slate-400 font-normal">(Google Drive, Pinterest, Behance, Figma, Dropbox)</span></label>
+                        <div class="relative">
+                            <i class="fa-solid fa-link absolute left-4 top-3.5 text-slate-400 text-xs"></i>
+                            <input type="url" id="reference_link" placeholder="https://pinterest.com/board-de-ejemplo o link de Drive" class="w-full bg-slate-50 border border-slate-200 rounded-xl pl-10 pr-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                    </div>
+
+                    <div class="space-y-3 pt-2">
+                        <label class="text-xs font-bold uppercase tracking-wider text-slate-700 block">
+                            ¿Qué consideran que los hace especiales frente a la competencia? <span class="text-brand-500">*</span>
+                        </label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3 rounded-xl hover:border-brand-500/50 transition flex items-center gap-3">
+                                <input type="radio" name="differentiation" value="Historia y tradición del club" checked onchange="toggleDiffOther(false)" class="accent-brand-500">
+                                <span class="text-sm text-slate-700">Historia y tradición del club</span>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3 rounded-xl hover:border-brand-500/50 transition flex items-center gap-3">
+                                <input type="radio" name="differentiation" value="Pasión y comunidad de fanáticos" onchange="toggleDiffOther(false)" class="accent-brand-500">
+                                <span class="text-sm text-slate-700">Pasión y comunidad de fanáticos</span>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3 rounded-xl hover:border-brand-500/50 transition flex items-center gap-3">
+                                <input type="radio" name="differentiation" value="Enfoque moderno e innovador" onchange="toggleDiffOther(false)" class="accent-brand-500">
+                                <span class="text-sm text-slate-700">Enfoque moderno e innovador</span>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3 rounded-xl hover:border-brand-500/50 transition flex items-center gap-3">
+                                <input type="radio" name="differentiation" value="Identidad local y orgullo de la ciudad" onchange="toggleDiffOther(false)" class="accent-brand-500">
+                                <span class="text-sm text-slate-700">Identidad local / orgullo de la ciudad</span>
+                            </label>
+                            <label class="cursor-pointer border border-slate-200 bg-slate-50/60 p-3 rounded-xl hover:border-brand-500/50 transition flex items-center gap-3 sm:col-span-2">
+                                <input type="radio" name="differentiation" value="Otro" id="diff-radio-otro" onchange="toggleDiffOther(true)" class="accent-brand-500">
+                                <span class="text-sm text-slate-700 font-bold">Otro aspecto diferencial...</span>
+                            </label>
+                        </div>
+
+                        <div id="diff-other-input-container" class="hidden pt-2">
+                            <input type="text" id="differentiation_custom" placeholder="Especifica qué los hace especiales..." class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-3 text-sm text-slate-900 focus:bg-white focus:outline-none focus:border-brand-500 transition">
+                        </div>
+                    </div>
+                </section>
+
+                <div class="flex justify-end pt-2">
+                    <button type="submit" class="w-full sm:w-auto px-8 py-4 bg-brand-500 hover:bg-brand-600 text-white font-heading font-bold text-base rounded-xl shadow-lg shadow-brand-500/25 transition duration-200 flex items-center justify-center gap-3 glow-hover">
+                        <span>Generar Resumen y Confirmar Briefing</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- ================= PAGE 2: SUMMARY & CONFIRMATION ================= -->
+        <div id="page-summary" class="hidden space-y-8">
+            
+            <div class="flex flex-wrap items-center justify-between gap-4 no-print bg-white p-4 rounded-2xl border border-slate-200 shadow-sm">
+                <button onclick="goToForm()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold transition flex items-center gap-2">
+                    <i class="fa-solid fa-arrow-left"></i> Editar Briefing
+                </button>
+                <div class="flex items-center gap-3 flex-wrap">
+                    <button onclick="exportPDF()" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition flex items-center gap-2 shadow-sm">
+                        <i class="fa-solid fa-file-pdf text-red-400"></i> Descargar PDF / Imprimir
+                    </button>
+                    <button onclick="sendWhatsApp()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold transition flex items-center gap-2 shadow-md shadow-emerald-600/20">
+                        <i class="fa-brands fa-whatsapp text-base"></i> Enviar Brief por WhatsApp
+                    </button>
+                </div>
+            </div>
+
+            <div id="summary-document" class="bg-white border border-slate-200 rounded-2xl p-6 sm:p-10 space-y-8 relative shadow-sm print-card">
+                
+                <div class="flex justify-between items-start border-b border-slate-200 pb-6 flex-wrap gap-4">
+                    <div class="space-y-1">
+                        <div class="flex items-center gap-3">
+                            <!-- PON TU LOGO AQUÍ (Para la hoja del PDF) -->
+                            <img src="TU_LOGO_AQUI.png" class="h-10 w-auto object-contain" alt="Logo Nevie Studio" />
+                        </div>
+                    </div>
+
+                    <div class="text-right">
+                        <span class="text-xs font-bold uppercase tracking-widest text-brand-500 block">Ficha de Proyecto & Briefing</span>
+                        <span id="summary-date" class="text-xs text-slate-500"></span>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 bg-slate-50 p-5 rounded-xl border border-slate-200">
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Cliente</span>
+                        <span id="sum-client-name" class="font-bold text-slate-900 text-sm"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Equipo / Institución</span>
+                        <span id="sum-team-name" class="font-bold text-brand-500 text-sm"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Contacto</span>
+                        <span id="sum-contact" class="text-xs text-slate-800 block font-medium"></span>
+                        <span id="sum-preference" class="text-[10px] text-slate-500"></span>
+                    </div>
+                    <div>
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Ubicación</span>
+                        <span id="sum-location" class="text-xs text-slate-700"></span>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block">Planes de Expansión</span>
+                        <span id="sum-expansion" class="text-xs text-slate-700"></span>
+                    </div>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center border-b border-slate-200 pb-2">
+                        <h3 class="font-heading font-bold text-slate-900 text-base uppercase tracking-wider">
+                            Plan Seleccionado: <span id="sum-plan-title" class="text-brand-500"></span>
+                        </h3>
+                        <span id="sum-plan-base-price" class="text-xs font-bold text-slate-500"></span>
+                    </div>
+
+                    <div id="sum-pieces-wrapper" class="space-y-2">
+                        <span class="text-xs font-bold uppercase text-slate-500 block">Piezas Gráficas Elegidas (<span id="sum-pieces-count"></span>):</span>
+                        <div id="sum-pieces-list" class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs text-slate-700"></div>
+                    </div>
+                </div>
+
+                <div id="sum-additionals-wrapper" class="space-y-2">
+                    <span class="text-xs font-bold uppercase text-slate-500 block">Servicios Adicionales Seleccionados:</span>
+                    <ul id="sum-additionals-list" class="space-y-1.5 text-xs text-slate-700"></ul>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Estilo Visual Elegido</span>
+                        <span id="sum-style" class="font-bold text-slate-900 text-sm block"></span>
+                    </div>
+                    <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                        <span class="text-[10px] uppercase font-bold text-slate-400 block mb-1">Diferenciador del Club</span>
+                        <span id="sum-differentiation" class="font-bold text-slate-900 text-sm block"></span>
+                    </div>
+                </div>
+
+                <div id="sum-reference-wrapper" class="text-xs space-y-1">
+                    <span class="font-bold text-slate-500">Enlace de Referencias Visuales:</span>
+                    <p id="sum-reference-url" class="text-brand-500 underline break-all font-medium"></p>
+                </div>
+
+                <div class="bg-brand-50 border-2 border-brand-500 rounded-2xl p-6 flex items-center justify-between flex-wrap gap-4">
+                    <div>
+                        <span class="text-xs uppercase font-bold text-brand-500 block tracking-wider">Inversión Total Estimada</span>
+                        <p class="text-xs text-slate-500">Sujeto a confirmación final tras revisión de insumos.</p>
+                    </div>
+                    <div class="text-right">
+                        <span id="sum-total-price" class="text-3xl font-extrabold text-slate-900 font-heading whitespace-nowrap"></span>
+                    </div>
+                </div>
+
+                <div class="text-center pt-6 border-t border-slate-200 text-xs text-slate-400 space-y-1">
+                    <p class="font-bold text-slate-700">contacto@neviestudio.com</p>
+                </div>
+
+            </div>
+        </div>
+
+    </main>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        const PIECES_LIST = [
+            { id: 1, name: "Poster del día de partido" },
+            { id: 2, name: "Alineaciones del equipo local" },
+            { id: 3, name: "Gol del equipo Local" },
+            { id: 4, name: "Resultados del medio tiempo" },
+            { id: 5, name: "Resultados del final del partido" },
+            { id: 6, name: "Cambios, sanciones y expulsiones" },
+            { id: 7, name: "Próximo partido" },
+            { id: 8, name: "Fixture mensual" },
+            { id: 9, name: "Comunicados generales" },
+            { id: 10, name: "Tabla de resultados" }
+        ];
+
+        const ADDITIONALS_LIST = [
+            { id: "add_extra_piece", name: "Pieza gráfica adicional", price: 55, isQty: true },
+            { id: "add_story", name: "Variante de formato feed o story (+10 bs por pieza)", price: 10, isQty: false, dynamicPricePerPiece: true, hideOnPremium: true },
+            { id: "add_affinity", name: "Archivo fuente editable (Affinity)", price: 30, isQty: false },
+            { id: "add_revisions", name: "1 Ronda de ajustes extra", price: 50, isQty: false },
+            { id: "add_redesign_logo", name: "Rediseño de logotipo / escudo", price: 150, isQty: false },
+            { id: "add_new_logo", name: "Creación de logotipo / escudo desde cero", price: 300, isQty: false }
+        ];
+
+        let activePlan = 'estandar';
+        let selectedPieces = [...PIECES_LIST.map(p => p.id)];
+        let selectedAdditionals = [];
+        let additionalsQty = {}; 
+
+        window.onload = function() {
+            renderPiecesCheckboxes();
+            renderAdditionalsCheckboxes();
+            updatePricingCalculations();
+        };
+
+        function renderPiecesCheckboxes() {
+            const container = document.getElementById('pieces-checkbox-container');
+            container.innerHTML = '';
+
+            PIECES_LIST.forEach(piece => {
+                const isChecked = selectedPieces.includes(piece.id);
+                const item = document.createElement('div');
+                item.className = `border p-3 rounded-xl transition flex flex-col justify-center text-xs font-medium ${
+                    isChecked ? 'bg-brand-50 border-brand-500 shadow-sm' : 'bg-white border-slate-200 text-slate-500'
+                }`;
+                
+                const inputType = activePlan === 'basico' ? 'radio' : 'checkbox';
+                const inputName = activePlan === 'basico' ? 'name="piece_selection"' : '';
+
+                item.innerHTML = `
+                    <label class="cursor-pointer flex items-center gap-2.5 w-full">
+                        <input type="${inputType}" ${inputName} value="${piece.id}" ${isChecked ? 'checked' : ''} onchange="togglePiece(${piece.id})" class="accent-brand-500 ${inputType === 'checkbox' ? 'rounded' : ''}">
+                        <span class="${isChecked ? 'text-slate-900 font-bold' : ''}">${piece.name}</span>
+                    </label>
+                `;
+
+                container.appendChild(item);
+            });
+        }
+
+        function togglePiece(id) {
+            if (activePlan === 'basico') {
+                selectedPieces = [id];
+            } else {
+                const minPieces = 4; // Mínimo 4 piezas para Estandar y Premium
+                const isCurrentlySelected = selectedPieces.includes(id);
+
+                if (isCurrentlySelected) {
+                    if (selectedPieces.length <= minPieces) {
+                        alert(`El plan ${activePlan.toUpperCase()} requiere un mínimo de ${minPieces} piezas gráficas.`);
+                        renderPiecesCheckboxes();
+                        return;
+                    }
+                    selectedPieces = selectedPieces.filter(pId => pId !== id);
+                } else {
+                    selectedPieces.push(id);
+                }
+            }
+
+            renderPiecesCheckboxes();
+            renderAdditionalsCheckboxes();
+            updatePricingCalculations();
+        }
+
+        function renderAdditionalsCheckboxes() {
+            const container = document.getElementById('additionals-container');
+            container.innerHTML = '';
+
+            ADDITIONALS_LIST.forEach(add => {
+                // Ocultar opciones restringidas por plan
+                if (activePlan === 'premium' && add.hideOnPremium) return;
+
+                const item = document.createElement('div');
+                
+                if (add.isQty) {
+                    const qty = additionalsQty[add.id] || 0;
+                    const isSelected = qty > 0;
+                    
+                    item.className = `border p-2 sm:p-3 rounded-xl transition flex items-center justify-between gap-2 flex-wrap ${
+                        isSelected ? 'bg-brand-50 border-brand-500 shadow-sm' : 'bg-white border-slate-200'
+                    }`;
+                    
+                    // Bloqueo lógico y visual para plan básico
+                    const limitReached = (activePlan === 'basico' && add.id === 'add_extra_piece' && qty >= 1);
+                    const btnClass = limitReached 
+                        ? 'bg-slate-100 text-slate-400 cursor-not-allowed' 
+                        : 'bg-brand-50 hover:bg-brand-100 text-brand-700';
+
+                    item.innerHTML = `
+                        <div class="flex items-center gap-2 flex-1">
+                            <span class="text-xs font-medium ${isSelected ? 'text-slate-900 font-bold' : 'text-slate-600'}">${add.name}</span>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center border border-brand-200 rounded-lg overflow-hidden bg-white shadow-sm h-7">
+                                <button type="button" onclick="updateAddQty('${add.id}', -1)" class="px-2.5 py-1 bg-brand-50 hover:bg-brand-100 text-brand-700 font-bold transition h-full flex items-center justify-center">-</button>
+                                <span class="px-2 text-xs font-bold w-6 text-center text-slate-800">${qty}</span>
+                                <button type="button" onclick="updateAddQty('${add.id}', 1)" class="px-2.5 py-1 ${btnClass} font-bold transition h-full flex items-center justify-center" ${limitReached ? 'disabled' : ''}>+</button>
+                            </div>
+                            <span class="text-xs font-bold text-brand-500 min-w-[45px] text-right whitespace-nowrap">+${add.price * (qty || 1)} Bs</span>
+                        </div>
+                    `;
+                } else {
+                    const isChecked = selectedAdditionals.includes(add.id);
+                    item.className = `cursor-pointer border p-3 rounded-xl transition flex items-center justify-between gap-2 ${
+                        isChecked ? 'bg-brand-50 border-brand-500 text-slate-900 font-bold shadow-sm' : 'bg-white border-slate-200 text-slate-600'
+                    }`;
+                    
+                    let displayPrice = add.price;
+                    if (add.dynamicPricePerPiece) {
+                        const extraPieces = additionalsQty['add_extra_piece'] || 0;
+                        displayPrice = add.price * (selectedPieces.length + extraPieces);
+                    }
+
+                    item.innerHTML = `
+                        <label class="flex items-center gap-2 cursor-pointer w-full">
+                            <input type="checkbox" value="${add.id}" ${isChecked ? 'checked' : ''} onchange="toggleAdditional('${add.id}')" class="accent-brand-500">
+                            <span class="text-xs font-medium">${add.name}</span>
+                        </label>
+                        <span class="text-xs font-bold text-brand-500 whitespace-nowrap">+${displayPrice} Bs</span>
+                    `;
+                }
+                container.appendChild(item);
+            });
+        }
+
+        function updateAddQty(id, delta) {
+            let newVal = (additionalsQty[id] || 0) + delta;
+            
+            // Forzar límite máximo de 1 en plan básico para la pieza extra
+            if (activePlan === 'basico' && id === 'add_extra_piece') {
+                newVal = Math.max(0, Math.min(1, newVal));
+            } else {
+                newVal = Math.max(0, newVal);
+            }
+            
+            additionalsQty[id] = newVal;
+            renderAdditionalsCheckboxes();
+            updatePricingCalculations();
+        }
+
+        function toggleAdditional(id) {
+            if (selectedAdditionals.includes(id)) {
+                selectedAdditionals = selectedAdditionals.filter(aId => aId !== id);
+            } else {
+                selectedAdditionals.push(id);
+            }
+            renderAdditionalsCheckboxes();
+            updatePricingCalculations();
+        }
+
+        function selectPlan(planKey) {
+            activePlan = planKey;
+            document.getElementById('selected_plan').value = planKey;
+
+            ['basico', 'estandar', 'premium'].forEach(p => {
+                const card = document.getElementById(`card-${p}`);
+                const badge = card.querySelector('.select-badge');
+                if (p === planKey) {
+                    card.className = "plan-card cursor-pointer border-2 border-brand-500 bg-brand-50/40 rounded-xl p-5 transition relative flex flex-col justify-between shadow-md shadow-brand-500/10";
+                    badge.textContent = "Seleccionado";
+                    badge.className = "select-badge text-xs font-bold text-brand-500";
+                } else {
+                    card.className = "plan-card cursor-pointer border border-slate-200 bg-slate-50/50 hover:border-brand-500/50 rounded-xl p-5 transition relative flex flex-col justify-between";
+                    badge.textContent = "Clic para seleccionar";
+                    badge.className = "select-badge text-xs font-medium text-slate-400";
+                }
+            });
+
+            if (planKey === 'basico') {
+                // Al pasar a básico, forzar reducción si había más de 1 extra
+                if (additionalsQty['add_extra_piece'] > 1) {
+                    additionalsQty['add_extra_piece'] = 1;
+                }
+                
+                if (selectedPieces.length === 0) selectedPieces = [1];
+                else if (selectedPieces.length > 1) selectedPieces = [selectedPieces[0]];
+            } else {
+                if (selectedPieces.length <= 1) {
+                    selectedPieces = [...PIECES_LIST.map(p => p.id)];
+                } else {
+                    const minLimit = 4;
+                    if (selectedPieces.length < minLimit) {
+                        let needed = minLimit - selectedPieces.length;
+                        for (let i = 1; i <= 10 && needed > 0; i++) {
+                            if (!selectedPieces.includes(i)) {
+                                selectedPieces.push(i);
+                                needed--;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (planKey === 'premium') {
+                selectedAdditionals = selectedAdditionals.filter(id => {
+                    const addObj = ADDITIONALS_LIST.find(a => a.id === id);
+                    return addObj && !addObj.hideOnPremium;
+                });
+            }
+
+            renderPiecesCheckboxes();
+            renderAdditionalsCheckboxes();
+            updatePricingCalculations();
+        }
+
+        function updatePricingCalculations() {
+            let total = 0;
+            let unselectedCount = 0;
+            let discountTotal = 0;
+
+            if (activePlan === 'basico') {
+                total = 55;
+            } else if (activePlan === 'estandar') {
+                unselectedCount = 10 - selectedPieces.length;
+                discountTotal = unselectedCount * 55;
+                total = 525 - discountTotal;
+            } else if (activePlan === 'premium') {
+                unselectedCount = 10 - selectedPieces.length;
+                discountTotal = unselectedCount * 55;
+                total = 900 - discountTotal;
+            }
+
+            // Sumar los extras por checkbox (false = no es cantidad)
+            selectedAdditionals.forEach(addId => {
+                const addObj = ADDITIONALS_LIST.find(a => a.id === addId && !a.isQty);
+                if (addObj) {
+                    if (addObj.dynamicPricePerPiece) {
+                        const extraPieces = additionalsQty['add_extra_piece'] || 0;
+                        total += addObj.price * (selectedPieces.length + extraPieces);
+                    } else {
+                        total += addObj.price;
+                    }
+                }
+            });
+
+            // Sumar los extras por cantidad
+            ADDITIONALS_LIST.forEach(addObj => {
+                if (addObj.isQty) {
+                    const qty = additionalsQty[addObj.id] || 0;
+                    total += qty * addObj.price;
+                }
+            });
+
+            document.getElementById('floating-total-display').textContent = `${total} Bs`;
+
+            const discountCard = document.getElementById('pieces-discount-card');
+            if (activePlan === 'basico') {
+                discountCard.classList.add('hidden');
+                document.getElementById('pieces-min-legend').textContent = "Selecciona 1 pieza para tu plan básico.";
+            } else {
+                discountCard.classList.remove('hidden');
+                document.getElementById('pieces-min-legend').innerHTML = `Desmarca las piezas que no requieras para ajustar el precio (Mínimo <span class="font-bold">4</span> piezas).`;
+                
+                document.getElementById('pieces-count-display').textContent = selectedPieces.length;
+                const discountDisplay = document.getElementById('discount-amount-display');
+                if (unselectedCount > 0) {
+                    discountDisplay.textContent = `Descuento por piezas no seleccionadas: -${discountTotal} Bs`;
+                } else {
+                    discountDisplay.textContent = `Kit completo`;
+                }
+            }
+        }
+
+        function toggleDiffOther(isOther) {
+            const customContainer = document.getElementById('diff-other-input-container');
+            const customInput = document.getElementById('differentiation_custom');
+            
+            if (isOther) {
+                customContainer.classList.remove('hidden');
+                customInput.focus();
+            } else {
+                customContainer.classList.add('hidden');
+            }
+        }
+
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            document.getElementById('sum-client-name').textContent = document.getElementById('client_name').value;
+            document.getElementById('sum-team-name').textContent = document.getElementById('team_name').value;
+            document.getElementById('sum-contact').textContent = document.getElementById('contact_info').value;
+            document.getElementById('sum-preference').textContent = `(Prefiere: ${document.getElementById('contact_preference').value})`;
+            document.getElementById('sum-location').textContent = document.getElementById('location_info').value || 'No especificada';
+            document.getElementById('sum-expansion').textContent = document.getElementById('expansion_plans').value;
+
+            const now = new Date();
+            document.getElementById('summary-date').textContent = `Fecha: ${now.toLocaleDateString('es-ES')}`;
+
+            const planTitles = {
+                basico: 'Básico (1 Pieza)',
+                estandar: 'Estándar (Kit Redes)',
+                premium: 'Premium (Branding Completo)'
+            };
+            document.getElementById('sum-plan-title').textContent = planTitles[activePlan];
+
+            const piecesListContainer = document.getElementById('sum-pieces-list');
+            const piecesWrapper = document.getElementById('sum-pieces-wrapper');
+            piecesListContainer.innerHTML = '';
+
+            if (activePlan === 'basico') {
+                piecesWrapper.classList.remove('hidden');
+                document.getElementById('sum-pieces-count').textContent = '1 Pieza';
+                
+                const pieceObj = PIECES_LIST.find(p => p.id === selectedPieces[0]);
+                let pieceName = pieceObj ? pieceObj.name : '1 Pieza Única';
+                
+                piecesListContainer.innerHTML = `<div class="flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 sm:col-span-2 font-medium"><i class="fa-solid fa-check text-brand-500 text-[10px]"></i> <span>${pieceName}</span></div>`;
+            } else {
+                piecesWrapper.classList.remove('hidden');
+                document.getElementById('sum-pieces-count').textContent = `${selectedPieces.length} de 10`;
+
+                selectedPieces.forEach(pId => {
+                    const pieceObj = PIECES_LIST.find(p => p.id === pId);
+                    if (pieceObj) {
+                        const li = document.createElement('div');
+                        li.className = 'flex items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200 font-medium';
+                        li.innerHTML = `<i class="fa-solid fa-check text-brand-500 text-[10px]"></i> <span>${pieceObj.name}</span>`;
+                        piecesListContainer.appendChild(li);
+                    }
+                });
+            }
+
+            const additionalsContainer = document.getElementById('sum-additionals-list');
+            const additionalsWrapper = document.getElementById('sum-additionals-wrapper');
+            additionalsContainer.innerHTML = '';
+
+            let hasAdditionals = false;
+
+            ADDITIONALS_LIST.forEach(addObj => {
+                if (addObj.isQty) {
+                    const qty = additionalsQty[addObj.id] || 0;
+                    if (qty > 0) {
+                        hasAdditionals = true;
+                        const li = document.createElement('li');
+                        li.className = 'flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200';
+                        li.innerHTML = `<span><i class="fa-solid fa-plus text-brand-500 text-[10px] mr-1.5"></i> ${addObj.name} (x${qty})</span> <span class="font-bold text-slate-900 whitespace-nowrap">+${addObj.price * qty} Bs</span>`;
+                        additionalsContainer.appendChild(li);
+                    }
+                } else if (selectedAdditionals.includes(addObj.id)) {
+                    hasAdditionals = true;
+                    let finalPrice = addObj.price;
+                    if (addObj.dynamicPricePerPiece) {
+                        const extraPieces = additionalsQty['add_extra_piece'] || 0;
+                        finalPrice = addObj.price * (selectedPieces.length + extraPieces);
+                    }
+
+                    const li = document.createElement('li');
+                    li.className = 'flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200';
+                    li.innerHTML = `<span><i class="fa-solid fa-plus text-brand-500 text-[10px] mr-1.5"></i> ${addObj.name}</span> <span class="font-bold text-slate-900 whitespace-nowrap">+${finalPrice} Bs</span>`;
+                    additionalsContainer.appendChild(li);
+                }
+            });
+
+            if (hasAdditionals) {
+                additionalsWrapper.classList.remove('hidden');
+            } else {
+                additionalsWrapper.classList.add('hidden');
+            }
+
+            const selectedStyle = document.querySelector('input[name="visual_style"]:checked')?.value || 'Moderno & Agresivo';
+            
+            let selectedDiff = document.querySelector('input[name="differentiation"]:checked')?.value;
+            if (selectedDiff === 'Otro') {
+                const customText = document.getElementById('differentiation_custom').value.trim();
+                selectedDiff = customText ? `Otro: ${customText}` : 'Otro (No especificado)';
+            }
+
+            document.getElementById('sum-style').textContent = selectedStyle;
+            document.getElementById('sum-differentiation').textContent = selectedDiff;
+
+            const refLink = document.getElementById('reference_link').value;
+            const refWrapper = document.getElementById('sum-reference-wrapper');
+            if (refLink) {
+                refWrapper.classList.remove('hidden');
+                document.getElementById('sum-reference-url').textContent = refLink;
+            } else {
+                refWrapper.classList.add('hidden');
+            }
+
+            document.getElementById('sum-total-price').textContent = document.getElementById('floating-total-display').textContent;
+
+            document.getElementById('page-form').classList.add('hidden');
+            document.getElementById('page-summary').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goToForm() {
+            document.getElementById('page-summary').classList.add('hidden');
+            document.getElementById('page-form').classList.remove('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function exportPDF() {
+            const element = document.getElementById('summary-document');
+            const teamName = document.getElementById('team_name').value || 'Equipo';
+
+            const opt = {
+                margin: 0.3,
+                filename: `Briefing_NevieStudio_${teamName.replace(/\s+/g, '_')}.pdf`,
+                image: { type: 'jpeg', quality: 0.98 },
+                html2canvas: { scale: 2, useCORS: true },
+                jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' }
+            };
+
+            html2pdf().set(opt).from(element).save();
+        }
+
+        function sendWhatsApp() {
+            const clientName = document.getElementById('client_name').value;
+            const teamName = document.getElementById('team_name').value;
+            const contactInfo = document.getElementById('contact_info').value;
+            const planTitles = { basico: 'Básico', estandar: 'Estándar', premium: 'Premium' };
+            const planName = planTitles[activePlan];
+            const totalPrice = document.getElementById('sum-total-price').textContent;
+            const selectedStyle = document.querySelector('input[name="visual_style"]:checked')?.value;
+
+            let msg = `*NUEVO BRIEFING - NEVIE STUDIO*\n\n`;
+            msg += `👤 *Cliente:* ${clientName}\n`;
+            msg += `⚽ *Equipo/Club:* ${teamName}\n`;
+            msg += `📱 *Contacto:* ${contactInfo}\n`;
+            msg += `📦 *Plan:* ${planName}\n`;
+            
+            const pNames = selectedPieces.map(id => PIECES_LIST.find(p=>p.id===id)?.name);
+            msg += `🖼️ *Piezas elegidas (${selectedPieces.length}):* ${pNames.join(', ')}\n`;
+
+            let additionalsText = [];
+            ADDITIONALS_LIST.forEach(addObj => {
+                if (addObj.isQty) {
+                    const qty = additionalsQty[addObj.id] || 0;
+                    if (qty > 0) additionalsText.push(`${addObj.name} (x${qty})`);
+                } else if (selectedAdditionals.includes(addObj.id)) {
+                    additionalsText.push(addObj.name);
+                }
+            });
+
+            if (additionalsText.length > 0) {
+                msg += `➕ *Adicionales:* ${additionalsText.join(', ')}\n`;
+            }
+
+            msg += `🎨 *Estilo Visual:* ${selectedStyle}\n`;
+            msg += `💰 *Presupuesto Estimado:* ${totalPrice}\n\n`;
+            msg += `Aguardamos confirmación para iniciar el proyecto.`;
+
+            const encoded = encodeURIComponent(msg);
+            window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        }
+    </script>
+</body>
+</html>
+```eof
